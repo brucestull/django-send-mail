@@ -265,6 +265,7 @@ Example of a simple use of Django's 'send_mail' method.
         from mailer.views import welcome_email
         request = HttpRequest()
         welcome_email(request)
+        
         ```
 
     ```powershell
