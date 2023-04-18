@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+# from django.http import HttpResponse
 from django.core.mail import send_mail
 from dotenv import load_dotenv
 import os
@@ -16,8 +16,8 @@ def welcome_email(request):
     send_mail(
         'django-send-mail',
         'Email body of django-send-mail\nWelcome to django-send-mail!',
-        'user@some-email.nowhere',
-        [os.getenv("MY_VALIDATED_EMAIL")],
+        'user@some-email.nowhere', # From email
+        [os.getenv("MY_VALIDATED_EMAIL")], # To email(s)
     )
     # The following line will need to be uncommented when this function
     # is changed to a view function since views must return an HttpResponse object.
