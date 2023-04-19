@@ -1,28 +1,30 @@
-# from django.http import HttpResponse
+# Import the `send_mail` function so we can use it to send an email
 from django.core.mail import send_mail
-from dotenv import load_dotenv
+# Import the `os` module so we can use it to access environment variables
 import os
-from smtplib import SMTPDataError
-
-# Load environment variables from .env file
-# Add variables from .env file to the environment
-load_dotenv()
-
 
 def welcome_email(request):
     """
-    Sends a welcome email to the user.
+    Use the `send_mail` function to send an email to a user's mailgun-validated
+    email address.
+
+    The arguments are as follows:
+    * `subject` - The subject of the email
+    * `message` - The body of the email
+    * `from_email` - The email address of the sender
+    * `recipient_list` - A list of email addresses of the recipients
+        * This example uses only one email address, which is retrieved
+        via the environment variable `MY_VALIDATED_EMAIL`.
     """
-    try:
-        # Use Django's send_mail function to send an email to the user.
-        send_mail(
-            'django-send-mail',
-            'Email body of django-send-mail\nWelcome to django-send-mail!',
-            'user@some-email.nowhere',
-            [os.getenv("MY_VALIDATED_EMAIL")],
-        )
-        print("Email sent successfully!")
-    except Exception as e:
-        # The `print` statement and the `return` statement are for illustrative purposes only.  Take a look at their differences. There are better ways to handle exceptions from a user's perspective which are beyond the scope of this example. 
-        print(e)
-        return e
+
+    # Call Django's `send_mail` function to send an email
+    send_mail(
+        # `subject`
+        'Welcome to Django - In Subject',
+        # `message`
+        'This is a welcome email from Django - In Body',
+        # `from_email`
+        'admin@fakeemail.app',
+        # `recipient_list`
+        [os.getenv('MY_VALIDATED_EMAIL')],
+    )
