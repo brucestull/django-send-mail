@@ -13,9 +13,11 @@ Example of a simple use of Django's 'send_mail' method.
     * Pipenv
 
 1. Add [`.gitignore`](./.gitignore) file to the project root directory:
-    * Resource:
-        * <https://www.toptal.com/developers/gitignore/>
-        * <https://www.toptal.com/developers/gitignore/api/python,django,visualstudiocode>
+    * Resources:
+        * Choose which types of frameworks, IDEs, etc. to determine ignored files:
+            * <https://www.toptal.com/developers/gitignore/>
+        * Direct link to the `.gitignore` file for this project:
+            * <https://www.toptal.com/developers/gitignore/api/python,django,visualstudiocode>
 
 1. Open a terminal in the project root directory:
 
@@ -171,37 +173,20 @@ Example of a simple use of Django's 'send_mail' method.
         from dotenv import load_dotenv
         import os
 
-        # Load environment variables from .env file
-        # Add variables from .env file to the environment
-        load_dotenv()
+    def welcome_email(request):
+        send_mail(
+            'Welcome to Django',
+            'This is a welcome email from Django.',
+            'admin@mailer.app',
+            [<your mailgun-validated email>],
+        )
 
-
-        def welcome_email(request):
-            """
-            Sends a welcome email to the user.
-            """
-            # Use Django's send_mail function to send an email to the user.
-            send_mail(
-                'django-send-mail',
-                'Email body of django-send-mail\nWelcome to django-send-mail!',
-                'user@some-email.nowhere', # From email
-                [os.getenv("MY_VALIDATED_EMAIL")], # To email(s)
-            )
-            # The following line will need to be uncommented when this function
-            # is changed to a view function since views must return an HttpResponse object.
-            # return HttpResponse("Welcome email sent!")
-
-        ```
-
-1. Start the development server.
-
-1. Start Django shell and use the `welcome_email` view function to send an email:
-    1. `python manage.py shell`
+1. Start Django shell and use the `welcome_email` function to send an email:
+    * `python manage.py shell`
 
     1. Commands to paste into the shell:
 
         ```python
-        from django.core.mail import send_mail
         from django.http import HttpRequest
         from mailer.views import welcome_email
         request = HttpRequest()
