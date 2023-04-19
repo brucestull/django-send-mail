@@ -5,7 +5,6 @@ Example of a simple use of Django's 'send_mail' method.
 ## Browser Links
 
 * <http://localhost:8000/>
-* <http://localhost:8000/mailer/>
 
 ## Creation of this Project
 
@@ -14,8 +13,11 @@ Example of a simple use of Django's 'send_mail' method.
     * Pipenv
 
 1. Add [`.gitignore`](./.gitignore) file to the project root directory:
-    * Resource:
-        * <https://www.toptal.com/developers/gitignore/>
+    * Resources:
+        * Choose which types of frameworks, IDEs, etc. to determine ignored files:
+            * <https://www.toptal.com/developers/gitignore/>
+        * Direct link to the `.gitignore` file for this project:
+            * <https://www.toptal.com/developers/gitignore/api/python,django,visualstudiocode>
 
 1. Open a terminal in the project root directory:
 
@@ -125,52 +127,6 @@ Example of a simple use of Django's 'send_mail' method.
         (django-send-mail) PS C:\Users\FlynntKnapp\Programming\django-send-mail>
         ```
 
-1. Create a view which returns a simple string in the [`mailer/views.py`](./mailer/views.py) module:
-    * Resource:
-        * <https://docs.djangoproject.com/en/3.2/topics/http/views/>
-
-    ```python
-    from django.http import HttpResponse
-
-    def index(request):
-        return HttpResponse("Goodbuy, World! Enjoy the Sails!")
-    ```
-
-1. Create a URL mapper module [`mailer/urls.py`](./mailer/urls.py) with a URL pattern to route requests to the `index` view in the `mailer` app:
-    * Resource:
-        * <https://docs.djangoproject.com/en/3.2/topics/http/urls/>
-
-    ```python
-    from django.urls import path
-
-    from . import views
-
-    urlpatterns = [
-        path('', views.index, name='index'),
-    ]
-    ```
-
-1. Create a URL pattern to route `mailer` requests to the `mailer` app's URLs in [`config/urls.py`](./config/urls.py) module:
-    * Resource:
-        * <https://docs.djangoproject.com/en/3.2/topics/http/urls/>
-
-    ```python
-    from django.contrib import admin
-    from django.urls import path, include
-
-    urlpatterns = [
-        path('admin/', admin.site.urls),
-        path('mailer/', include('mailer.urls')),
-    ]
-    ```
-
-1. Start the development server.
-
-1. Open the `mailer` app in the browser:
-    * <http://localhost:8000/mailer/>
-
-1. Verify the `Goodbuy, World! Send off that message!` string is displayed.
-
 1. Add a [`.env`](./.env) file to the project root directory:
     * Resource:
         * <https://pypi.org/project/python-dotenv/>
@@ -199,40 +155,7 @@ Example of a simple use of Django's 'send_mail' method.
     EMAIL_USE_TLS = True
     ```
 
-1. Perform database migrations:
-    * `python manage.py migrate`:
-
-        ```powershell
-        (django-send-mail) PS C:\Users\FlynntKnapp\Programming\django-send-mail> python manage.py migrate
-        Operations to perform:
-          Apply all migrations: admin, auth, contenttypes, sessions
-        Running migrations:
-          Applying contenttypes.0001_initial... OK
-          Applying auth.0001_initial... OK
-          Applying admin.0001_initial... OK
-          Applying admin.0002_logentry_remove_auto_add... OK
-          Applying admin.0003_logentry_add_action_flag_choices... OK
-          Applying contenttypes.0002_remove_content_type_name... OK
-          Applying auth.0002_alter_permission_name_max_length... OK
-          Applying auth.0003_alter_user_email_max_length... OK
-          Applying auth.0004_alter_user_username_opts... OK
-          Applying auth.0005_alter_user_last_login_null... OK
-          Applying auth.0006_require_contenttypes_0002... OK
-          Applying auth.0007_alter_validators_add_error_messages... OK
-          Applying auth.0008_alter_user_username_max_length... OK
-          Applying auth.0009_alter_user_last_name_max_length... OK
-          Applying auth.0010_alter_group_name_max_length... OK
-          Applying auth.0011_update_proxy_permissions... OK
-          Applying auth.0012_alter_user_first_name_max_length... OK
-          Applying sessions.0001_initial... OK
-        (django-send-mail) PS C:\Users\FlynntKnapp\Programming\django-send-mail>
-        ```
-
-1. Create a superuser
-
-1. Ensure the superuser's email is a valid email address and it's registered with the email host.
-
-1. Create a `welcome_email` view in the [`mailer/views.py`](./mailer/views.py) module:
+1. Create a `welcome_email` function in the [`mailer/views.py`](./mailer/views.py) module:
     * Resource:
         * <https://docs.djangoproject.com/en/3.2/topics/email/>
 
@@ -240,27 +163,20 @@ Example of a simple use of Django's 'send_mail' method.
     from django.core.mail import send_mail
     from django.http import HttpResponse
 
-    def index(request):
-        return HttpResponse("Goodbuy, World! Enjoy the Sails!")
-
     def welcome_email(request):
         send_mail(
             'Welcome to Django',
             'This is a welcome email from Django.',
             'admin@mailer.app',
-            [<your valid email>],
-            fail_silently=False,
+            [<your mailgun-validated email>],
         )
 
-1. Start the development server.
-
-1. Start Django shell and use the `welcome_email` view function to send an email:
+1. Start Django shell and use the `welcome_email` function to send an email:
     * `python manage.py shell`
 
     * Commands to paste into the shell:
 
         ```python
-        from django.core.mail import send_mail
         from django.http import HttpRequest
         from mailer.views import welcome_email
         request = HttpRequest()
